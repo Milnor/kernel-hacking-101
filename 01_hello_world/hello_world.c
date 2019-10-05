@@ -13,14 +13,14 @@ static int __init hello(void)
 
 static void __exit goodbye(void)
 {
-	printf(KERN_WARNING "Goodbye, cruel world!\n");
+	printk(KERN_WARNING "Goodbye, cruel world!\n");
 	// Note: KERN_WARNING displays differently than KERN_INFO
 
 	return;
 }
 
 /* Module will likely be rejected without GPL */
-MODULE_LICENCE("GPL");
+MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Name of smart person goes here");
 MODULE_DESCRIPTION("Hello World LKM");
 
