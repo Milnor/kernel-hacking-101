@@ -1,7 +1,9 @@
 /* A simple kernel module that accepts an optional parameter */
 #include <linux/module.h>
 
-static char * my_name = "Simple K. Module";
+static char * my_name = "Simple K. Module";		// default value
+module_param(my_name, charp, 0000);			// name, type, permissions
+MODULE_PARM_DESC(my_name, "a character string");
 
 static int __init hello(void)
 {
@@ -27,3 +29,5 @@ MODULE_DESCRIPTION("Hello World LKM");
 /* Tell the kernel which functions to use for init and exit */
 module_init(hello);
 module_exit(goodbye);
+
+
