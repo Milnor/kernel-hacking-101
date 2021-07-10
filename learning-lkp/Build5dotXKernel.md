@@ -18,8 +18,20 @@
 		* e.g. `git clone --depth=3 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git`
 			- limiting depth makes it less massive
 2. Extract tree (if applicable)
+	- included a `tar` example in previous step above
 3. Configuration
 	- e.g. `make menuconfig`
+	- Three Common Approaches
+		1. small embedded systems
+			* working example configs included in `arch/<arch>/configs/`
+			* start with a known good and fine tune it
+			* FYI, Rasp. Pi is `arch/arm/configs/bcm2835_defconfig` 
+		2. emulate the distro's configuration
+			* e.g. `cp /boot/config-$(uname -r) ${K_SRC_DIR}/.config`
+		3. localmodconfig approach
+			* `lsmod > /tmp/lsmod.now`
+			* `cd ${K_SRC_DIR}`
+			* `make LSMOD=/tmp/lsmod.now localmodconfig`
 4. Build loadable modules and DTBs (Device Tree Blobs)
 5. Install
 	- `sudo make modules_install`
@@ -43,10 +55,10 @@
 
 ## kbuild
 * each symbol **FOO** has a **CONFIG\_FOO** macro
-* three options it can be set to
-	- y(es) it goes into the kernel itself
-	- m(odule) it goes into a module
-	- n(o) don't build it
+	- three options it can be set to
+		* **y(es)** it goes into the kernel itself
+		* **m(odule)** it goes into a module
+		* **n(o)** don't build it
 * How do we get a working **.config** file?
 	- start with a default configuration and tweak it
 
