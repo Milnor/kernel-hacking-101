@@ -65,6 +65,7 @@
 	- selected options in TUI and exited
 * `wc -l .config` 10335 is a lot of options!
 * `grep IKCONFIG .config` to see how specific options were set
+* `scripts/diffconfig .config.old .config` slick way to see the changes
 
 ## Licensing
 * loadable modules using the kernel source tree fall under GNU GPL-2.0
