@@ -49,6 +49,22 @@
 * `head Makefile`
 	- **Kleptomaniac Octopus** is a pretty awesome name
 * also went back and deleted the .tar.xz
+* Use **localmodconfig** approach for now
+* `lsmod > /tmp/lsmod.now` it is 50 lines long, according to *wc*
+* `cd ~/kernels/linux-5.4.130`
+* `make LSMOD=/tmp/lsmod.now localmodconfig`
+	- it failed because it couldn't find flex
+	- `sudo apt-get update ; sudo apt-get upgrade ; sudo apt-get install flex bison`
+	- THEN I ran the *make* command again... and hit ENTER a few times
+* `make mrproper` or `make distclean` is supposed to work too
+* Next fine-tune the localmodconfig .config with **make menuconfig**
+* `make menuconfig`
+	- it failed because it couldn't find ncurses
+	- `sudo apt-get install lib64ncurses5-dev`
+	- after that, make menuconfig worked
+	- selected options in TUI and exited
+* `wc -l .config` 10335 is a lot of options!
+* `grep IKCONFIG .config` to see how specific options were set
 
 ## Licensing
 * loadable modules using the kernel source tree fall under GNU GPL-2.0
