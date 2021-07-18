@@ -66,7 +66,35 @@
 * `wc -l .config` 10335 is a lot of options!
 * `grep IKCONFIG .config` to see how specific options were set
 * `scripts/diffconfig .config.old .config` slick way to see the changes
-
+* Brief Detour into review quetions
+	- `make tags` and `make cscope` both failed out-of-the-box
+		* cloned universal-ctags, but it failed to build since it needed additional deps
+		* `apt-cache search cscope` `sudo apt-get install cscope` `man cscope`
+		* TODO: circle back to this, I want to build the kernel!
+* Back to actually building the kernel...
+* `nproc` and `lscpu` both agree that I have two cores
+* use `-j n`, where n = num-CPU-cores * factor
+	- factor is 2 (or 1.5 on a high-end system)
+	- on my box, n = 2 * 2 = 4
+* `time make -j 4`
+	- it failed after 7 seconds, warning of needing libelf-dev and erroring out on not finding openssl
+	- `sudo apt-get install libelf-dev`
+	- `sudo apt-get install libssl-dev`
+	- No rule to make target 'debian/canonical-certs.pem', needed by 'certs/x509\_certificate\_list' ... well this is getting annoying.
+	- modified .config
+		* CONFIG\_SYSTEM\_TRUSTED\_KEYS=""
+* it finally seemed like it was working
+* to speed things up, I'll try `init 3` and then `time make -j4` from there...
+	- it froze; can't change runlevel with `init 3` in Ubuntu 18?
+* Installed more deps
+	- `sudo apt install linux-tools-common`
+	- `sudo apt-get install linux-tools-5.4.0-77-generic linux-tools-generic`
+	- `sudo perf stat make -j4` **finally** built it in 4660.98 seconds
+	- I don't have scores to spare, but I'll up RAM from 4 to 16GB
+* The build generated some noteworthy files:
+	- **vmlinux** // used for debugging
+	- **System.map** // symbol-address mappings
+	- **bzImage** // compressed bootable kernel image
 ## Licensing
 * loadable modules using the kernel source tree fall under GNU GPL-2.0
 
